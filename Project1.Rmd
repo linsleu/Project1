@@ -1,0 +1,91 @@
+---
+title: "Project 1"
+author: "Linsley Tiong"
+output:
+  html_document: default
+---
+
+```{r global_options, echo=FALSE}
+knitr::opts_chunk$set(fig.height=5, fig.width=10, warning=FALSE, tidy=TRUE, echo=FALSE, tidy.opts=list(width.cutoff=60))
+```
+
+------------------------------------------------------------------------
+
+# **<span style= "font-family: serif;"> Introduction </span>**
+```{r}
+school = read.csv('Project1_school.csv')
+
+```
+<span style= "font-size: 16px; font-family: serif;">In this investigation, I will be using a dataset showing SAT scores across the United States from the CORGIS Dataset Project, with data spanning from 2005 to 2015.</span>
+
+<span style= "font-size: 16px; font-family: serif;">In this analysis, my outcome variable of interest is the average English high school GPA of students. The predictor variables I will be investigating are the average SAT verbal scores, average total SAT scores, and the Year the test-taking data was pulled from.</span>
+
+<span style= "font-size: 16px; font-family: serif;">I chose these variables because I want to explore how standardized test performances and the total amount of test takers may influence or be associated with academic success in school. GPA is commonly used as a long-term indicator of academic achievement, while SAT scores are often used as a short measure of college readiness. With that, I also want to investigate the relationship between average English GPA and average Math GPA to see if there is a correlation between students' performance in these two subjects.</span>
+
+![](PictureProject1.jpg)
+
+[SAT® Score Relationships with College GPA by College Board Research](https://research.collegeboard.org/media/pdf/SAT%28R%29%20Score%20Relationships%20with%20College%20GPA.pdf)
+
+# **<span style= "font-family: serif;"> Outcome Variable </span>**
+```{r}
+hist(school$Academic.Subjects.English.Average.GPA, xlab = "Average English GPA", ylab = "Frequency", col = 'lightsteelblue3', xlim = c(3.0, 4.0), main = "Average High School English GPA Across The U.S.")
+```
+<span style= "font-size: 16px; font-family: serif;">The mean of the average English GPA in the data set found was `r round(mean(school$Academic.Subjects.English.Average.GPA),2)` and the median found was `r round(median(school$Academic.Subjects.English.Average.GPA),2)`. The standard deviation of the distribution is `r round(sd(school$Academic.Subjects.English.Average.GPA),2)`.</span>
+
+# **<span style= "font-family: serif;"> Bivariate Analyses </span>**
+```{r}
+plot(school$Total.Verbal, school$Academic.Subjects.English.Average.GPA, main = "Average Verbal SAT Score vs. Average English GPA", xlab = "Verbal SAT Score", ylab = "Average English GPA", pch = 20, col = 'lightsteelblue4')
+```
+<span style= "font-size: 16px; font-family: serif;">The correlation coefficient for the average verbal SAT score against the average English GPA is `r round(cor(school$Total.Verbal, school$Academic.Subjects.English.Average.GPA),2)`. There is a moderate, positive linear relationship between these two variables.</span>
+
+```{r}
+school$Average.Total.SAT.Score = school$Total.Verbal + school$Total.Math
+
+plot(school$Average.Total.SAT.Score, school$Academic.Subjects.English.Average.GPA, main = "Average Total SAT Score vs. Average English GPA", xlab = "Total SAT Score", ylab = "Average English GPA", pch = 20, col = 'black')
+```
+<span style= "font-size: 16px; font-family: serif;">Since the total SAT score includes both the math and verbal section, I wanted to see if there was a significant difference between the relationship between the total SAT score with English GPA vs. solely just the verbal SAT score with English GPA. The correlation coefficient for the average total SAT score against the average English GPA is `r round(cor(school$Average.Total.SAT.Score, school$Academic.Subjects.English.Average.GPA),2)`. The relationship between them is still moderate, positive, and linear.</span>
+
+```{r}
+#(Change to categorical)
+school$Year = as.factor(school$Year)
+
+boxplot(school$Academic.Subjects.English.Average.GPA~school$Year, main = "Average High School English GPA by Year", xlab = "Year", ylab = "Average High School English GPA", col = 'lightsteelblue2')
+
+aggregate(school$Academic.Subjects.English.Average.GPA~school$Year, FUN = mean) 
+```
+<span style= "font-size: 16px; font-family: serif;">For the relationship between the year the data set was pulled from and the average English GPA, the aggregate table shows a slight gradual increase as the years go by. Each year’s average GPA is roughly the same, but the little increase in difference shows an overall increase from 2005 to 2015. The median for each year/the spread of scores also looks similar to the years next to each other. There aren’t big jumps or drops, but the magnitude of the decimals suggests that performance in English courses increased over the decade.</span>
+
+```{r}
+school$Year = as.factor(school$Year)
+
+plot(school$Average.Total.SAT.Score, school$Academic.Subjects.English.Average.GPA, col = school$Year, cex = school$Total.Test.takers / max(school$Total.Test.takers, na.rm = TRUE) * 5, pch = 19, xlab = "Total SAT Score", ylab = "Average English GPA", main = "English GPA vs Total SAT\n(Color = Year, Size = Test Takers)")
+
+legend("topleft", legend = levels(school$Year), col = 1:length(levels(school$Year)), pch = 19, bty = "n")
+```
+<span style= "font-size: 16px; font-family: serif;">The multivariate scatterplot and its upward trend indicates a positive relationship, with higher SAT scores generally associated with higher English GPAs. The graph demonstrates that both SAT performance and GPA move in the same direction over time, and that this association is robust across different cohorts of students.</span>
+
+# **<span style= "font-family: serif;">Choice Elements</span>**
+
+<span style= "font-size: 16px; font-family: serif;">1. I used multiple inline codes to report the mean, median, and standard deviation of English GPA in the Outcome Variable section.</span>
+
+<span style= "font-size: 16px; font-family: serif;">2. I added two working hyperlinks in the Introduction to document sources—the College Board research brief and the CORGIS SAT dataset.</span>
+
+<span style= "font-size: 16px; font-family: serif;">3. I changed text styling (font family and size) using inline HTML <span> to highlight key narrative in the Introduction and section headers. </span>
+
+<span style= "font-size: 16px; font-family: serif;">4. I created a new predictor variable, Average.Total.SAT.Score = Total.Verbal + Total.Math, and used it in the bivariate analysis and correlations.</span>
+
+<span style= "font-size: 16px; font-family: serif;">5. At the end of the Bivariate Analyses section, I included a multivariate plot of English GPA vs. Total SAT, with color = Year and point size = Test Takers, and briefly interpreted the pattern it shows.</span>
+
+# **<span style= "font-family: serif;">Conclusion</span>**
+<span style= "font-size: 16px; font-family: serif;">Overall, this project found that average English GPA among U.S. high school students (2005–2015) was moderately and positively correlated with SAT performance. Both verbal SAT scores and total SAT scores showed strong associations with English GPA, with correlation coefficients above 0.8. This suggests that standardized test scores and GPA capture overlapping dimensions of academic performance. Additionally, when comparing GPA trends over time, results showed a very gradual increase from 2005 to 2015, indicating stable performance with only modest improvements year to year. However, this could be due to [Grade Inflation](https://fordhaminstitute.org/national/commentary/grade-inflation-why-it-matters-and-how-stop-it) over the years.</span>
+
+<span style= "font-size: 16px; font-family: serif;">For future research, one next step would be to investigate how demographic or school-level factors (such as region, socioeconomic status, or school funding) may moderate the relationship between SAT scores and GPA. Another useful extension would be to bring in college outcome variables—such as freshman GPA or retention rates—to see if high school GPA and SAT scores together are predictive of long-term academic success.</span>
+
+# **<span style= "font-family: serif;">References</span>**
+
+[SAT® Score Relationships with College GPA by College Board Research](https://research.collegeboard.org/media/pdf/SAT%28R%29%20Score%20Relationships%20with%20College%20GPA.pdf)
+
+[SAT predicts GPA better for high ability subjects (Coyle et al., 2011)](https://pmc.ncbi.nlm.nih.gov/articles/PMC3090148/)
+
+[Grade Inflation](https://fordhaminstitute.org/national/commentary/grade-inflation-why-it-matters-and-how-stop-it)
+
