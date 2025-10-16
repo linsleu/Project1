@@ -28,20 +28,20 @@ school = read.csv('Project1_school.csv')
 
 # **<span style= "font-family: serif;"> Outcome Variable </span>**
 ```{r}
-#Histogram showing the distribution of Average English GPAs
+**PARTNER SUGGESTION: #Histogram showing the distribution of Average English GPAs
 hist(school$Academic.Subjects.English.Average.GPA, xlab = "Average English GPA", ylab = "Frequency", col = 'lightsteelblue3', xlim = c(3.0, 4.0), main = "Average High School English GPA Across The U.S.")
 ```
 <span style= "font-size: 16px; font-family: serif;">The mean of the average English GPA in the data set found was `r round(mean(school$Academic.Subjects.English.Average.GPA),2)` and the median found was `r round(median(school$Academic.Subjects.English.Average.GPA),2)`. The standard deviation of the distribution is `r round(sd(school$Academic.Subjects.English.Average.GPA),2)`.</span>
 
 # **<span style= "font-family: serif;"> Bivariate Analyses </span>**
 ```{r}
-#Scatterplot showing the relationship between verbal SAT Score and English GPA
+**PARTNER SUGGESTION: #Scatterplot showing the relationship between verbal SAT Score and English GPA
 plot(school$Total.Verbal, school$Academic.Subjects.English.Average.GPA, main = "Average Verbal SAT Score vs. Average English GPA", xlab = "Verbal SAT Score", ylab = "Average English GPA", pch = 20, col = 'lightsteelblue4')
 ```
 <span style= "font-size: 16px; font-family: serif;">The correlation coefficient for the average verbal SAT score against the average English GPA is `r round(cor(school$Total.Verbal, school$Academic.Subjects.English.Average.GPA),2)`. There is a moderate, positive linear relationship between these two variables.</span>
 
 ```{r}
-#Scatterplot displaying the relationship between the total SAT score and average English GPA
+**PARTNER SUGGESTION: #Scatterplot displaying the relationship between the total SAT score and average English GPA
 school$Average.Total.SAT.Score = school$Total.Verbal + school$Total.Math
 
 plot(school$Average.Total.SAT.Score, school$Academic.Subjects.English.Average.GPA, main = "Average Total SAT Score vs. Average English GPA", xlab = "Total SAT Score", ylab = "Average English GPA", pch = 20, col = 'black')
@@ -51,9 +51,10 @@ plot(school$Average.Total.SAT.Score, school$Academic.Subjects.English.Average.GP
 ```{r}
 #(Change to categorical)
 school$Year = as.factor(school$Year)
-#Boxplot showing the average high school english GPA by year
+**PARTNER SUGGESTION: #Boxplot showing the average high school english GPA by year
 boxplot(school$Academic.Subjects.English.Average.GPA~school$Year, main = "Average High School English GPA by Year", xlab = "Year", ylab = "Average High School English GPA", col = 'lightsteelblue2')
 
+**PARTNER SUGGESTION: 
 #Table showing mean of average english GPAs each year
 library(knitr)
 mean_gpa_by_year <- aggregate(English_GPA ~ Year, data = school, FUN = mean)
@@ -65,7 +66,7 @@ kable(mean_gpa_by_year, col.names = c("Year", "Mean English GPA"),
 
 ```{r}
 school$Year = as.factor(school$Year)
-#Scatterplot showing the relationship between total SAT score and average english GPA considering color and test takers as factors
+**PARTNER SUGGESTION: #Scatterplot showing the relationship between total SAT score and average english GPA considering color and test takers as factors
 plot(school$Average.Total.SAT.Score, school$Academic.Subjects.English.Average.GPA, col = school$Year, cex = school$Total.Test.takers / max(school$Total.Test.takers, na.rm = TRUE) * 5, pch = 19, xlab = "Total SAT Score", ylab = "Average English GPA", main = "English GPA vs Total SAT\n(Color = Year, Size = Test Takers)")
 
 legend("topleft", legend = levels(school$Year), col = 1:length(levels(school$Year)), pch = 19, bty = "n")
@@ -96,6 +97,7 @@ legend("topleft", legend = levels(school$Year), col = 1:length(levels(school$Yea
 [SAT predicts GPA better for high ability subjects (Coyle et al., 2011)](https://pmc.ncbi.nlm.nih.gov/articles/PMC3090148/)
 
 [Grade Inflation](https://fordhaminstitute.org/national/commentary/grade-inflation-why-it-matters-and-how-stop-it)
+
 
 
 
