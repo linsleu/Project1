@@ -54,7 +54,12 @@ school$Year = as.factor(school$Year)
 #Boxplot showing the average high school english GPA by year
 boxplot(school$Academic.Subjects.English.Average.GPA~school$Year, main = "Average High School English GPA by Year", xlab = "Year", ylab = "Average High School English GPA", col = 'lightsteelblue2')
 
-aggregate(school$Academic.Subjects.English.Average.GPA~school$Year, FUN = mean) 
+#Table showing mean of average english GPAs each year
+library(knitr)
+mean_gpa_by_year <- aggregate(English_GPA ~ Year, data = school, FUN = mean)
+kable(mean_gpa_by_year, col.names = c("Year", "Mean English GPA"),
+      caption = "Average English GPA by Year")
+
 ```
 <span style= "font-size: 16px; font-family: serif;">For the relationship between the year the data set was pulled from and the average English GPA, the aggregate table shows a slight gradual increase as the years go by. Each year’s average GPA is roughly the same, but the little increase in difference shows an overall increase from 2005 to 2015. The median for each year/the spread of scores also looks similar to the years next to each other. There aren’t big jumps or drops, but the magnitude of the decimals suggests that performance in English courses increased over the decade.</span>
 
@@ -91,5 +96,6 @@ legend("topleft", legend = levels(school$Year), col = 1:length(levels(school$Yea
 [SAT predicts GPA better for high ability subjects (Coyle et al., 2011)](https://pmc.ncbi.nlm.nih.gov/articles/PMC3090148/)
 
 [Grade Inflation](https://fordhaminstitute.org/national/commentary/grade-inflation-why-it-matters-and-how-stop-it)
+
 
 
